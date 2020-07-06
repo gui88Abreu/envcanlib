@@ -54,3 +54,8 @@ metaData=None)
 - Numpy
 - Urllib
 - Pandas
+
+## Installation
+
+In order to install it on Ubuntu systems just execute the following command in the root directory as superuser:
+    **python3 install.py**
