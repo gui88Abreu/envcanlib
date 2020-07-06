@@ -29,7 +29,7 @@ metaData=None)
 
         path : string, optional
             
-            Path to be stored the data in the machine. The default directory is the root directory.
+            Path to store the data in the machine. The default directory is the root directory.
 
         dataFormat: string, optional
 
