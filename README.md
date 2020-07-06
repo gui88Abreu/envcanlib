@@ -12,7 +12,7 @@ metaData=None)
 
     **Parameters :**
 
-        **IDs : list of strings, array_like as type str**
+        --IDs : list of strings, array_like as type str--
 
             List of IDs.
 
