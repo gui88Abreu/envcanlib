@@ -6,19 +6,19 @@ Python3 package to download information from Environment Canada: Whether Informa
 **envcanlib.downloadData**(IDs, start, end, method='hourly', path='', dataFormat='default', continuous=True,
 metaData=None)
 
-    Pull daily or hourly information from the Government of Canada official website of a specified period of time and store the data in the machine.
+    Pull daily or hourly information from the Government of Canada official website of a specified period of time and save the data in the disk.
 
     Parameters:
 
-        IDs : list of strings, array_like as type str
+        IDs : list of strings, array_like as str type
 
-            List of IDs.
+            List of staions  IDs.
 
-        start : tuple as type int
+        start : tuple as int type
             
             A tuple containing year and month to start.
         
-        end : tuple as type int
+        end : tuple as int type
             
             A tuple containing year and month to end.
 
@@ -28,16 +28,18 @@ metaData=None)
 
         path : string, optional
             
-            Path to store the data in the machine. The default directory is the root directory.
+            Path to save the data in the disk. The default directory is the root directory.
 
         dataFormat: string, optional
 
-            'default' means that it will be stored one file for each ID in IDs. 'oneFile' means that
-            one file containing all pulled information will be stored.
+            'default' means that it will be saved one file for each ID in IDs. 'oneFile' means that
+            one file containing all pulled information will be saved.
 
         continuous: bool, optional
 
-            If True all information between start and end will be pulled, otherwise it will be pulled just the information between start month and end month since start year until end year.
+            If True all information between start and end will be pulled, otherwise it will be pulled just the information between start month and end month from start year until end year. 
+            For instance, if start = (2014,5) and end = (2015,7) and continuous = False, then it will be pulled just the months 5,6 and 7 of 2014 and 2015. If continuous = True, all the data between March 2014 and July 2015 will be pulled. 
+            This can be useful if it is desired to have slices of a period of time.
 
         metaData: pandas.DataFrame, optional
 
