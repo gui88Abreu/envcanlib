@@ -1,6 +1,5 @@
-# envcanlib
-Python package to download information from Environment Canada: Whether Information
-
+# Envcanlib
+Python3 package to download information from Environment Canada: Whether Information
 
 ## Description
 
@@ -47,3 +46,9 @@ metaData=None)
     Returns:
 
         None.
+
+## Dependencies
+
+- Numpy
+- Urllib
+- Pandas
