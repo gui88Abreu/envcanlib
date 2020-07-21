@@ -2,6 +2,9 @@
 Python3 package to download information from Environment Canada: Whether Information
 
 ## Description
+This is a python3 package of functions developed in order to assist in the processing of canadian weather information.
+
+### Functions Available
 
 **envcanlib.downloadData**(IDs, start, end, method='hourly', path='', dataFormat='default', continuous=True,
 metaData=None)
@@ -59,3 +62,11 @@ metaData=None)
 
 In order to install it on Ubuntu systems just execute the following command in the root directory as superuser:
     **python3 install.py**
+
+## Exemplo of use
+
+        # import library after the installation
+        import envcanlib as ecl
+
+        # It downloads daily data of the stations 140 and 159 from February untill June, 2016.
+        ecl.downloadData(["140", "159"], (2016,2), (2016,5), 'daily')
