@@ -6,7 +6,7 @@ Python3 package to download information from Environment Canada: Whether Informa
 **envcanlib.downloadData**(IDs, start, end, method='hourly', path='', dataFormat='default', continuous=True,
 metaData=None)
 
-    Pull daily or hourly information from the Government of Canada official website of a specified period of time and save the data in the disk.
+    Pull daily and hourly information from the Government of Canada official website of a specified period of time and save the data in the disk.
 
     Parameters:
 
