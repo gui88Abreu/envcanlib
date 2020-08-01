@@ -55,7 +55,7 @@ metaData=None)
 ## Dependencies
 
 - Numpy
-- Urllib
+- Urllib3
 - Pandas
 
 ## Installation
