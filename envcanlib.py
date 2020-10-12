@@ -7,7 +7,7 @@ Created on Wed Nov 30 23:35:15 2019
 """
 
 def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'default', 
-                 continuous = True, metaData = None,  fileName = ''):
+                 continuous = True, metaData = None,  fileName = None):
     '''
     Description: It downloads weather information from the Environment Canada website. 
     It is possible to download daily or hourly information in a slice of time passed as an argument.
@@ -27,7 +27,7 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
            continuous: If True the time passed will be considered as continuous, otherwise only months betwwen 
            start month and end month will be downloaded. Default value is True.
            
-           fileName: String to name the file.
+           fileName: Dictionary to name each file.
     '''
     
     import pandas as pd
@@ -46,8 +46,7 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
         method  = "&timeframe=2&submit=Download+Data"
         downloadMethod = 'DLY'
     else:
-        print('method = ' + method + 'is not valid.')
-        print('avalible methods are "h" or "d".')
+        raise('method = ' + method + 'is not valid. Avalible methods are "h" or "d".')
     
     if dataFormat == 'default':
         for ID in IDs:
@@ -71,7 +70,7 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
                         #build the query
                         strQry = 'http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=' + str(ID) + "&Year=" + str(intYr) +'&Month=' + str(intMnt) + method 
                         #print strQry
-                        print ('Querying station ' + str(ID) + ' for year ' + str(intYr) + ' and month ' + str(intMnt))
+                        #print ('Querying station ' + str(ID) + ' for year ' + str(intYr) + ' and month ' + str(intMnt))
                         try:
                             response = url.urlopen(strQry)
                             rawData = response.readlines()
@@ -92,13 +91,14 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
                                     
                             newData = pd.DataFrame(d, columns=columns)
                             data = data.append(newData, ignore_index=True, sort=False)
-                        except Exception as e:
-                            print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr) + '. ',e)
+                        except Exception:
+                            pass
+                            #print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr) + '. ',e)
                 else:
                     #build the query
                     strQry = 'http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=' + str(ID) + "&Year=" + str(intYr) + method 
                     #print strQry
-                    print ('Querying station ' + str(ID) + ' for year ' + str(intYr))
+                    #print ('Querying station ' + str(ID) + ' for year ' + str(intYr))
                     try:
                         response = url.urlopen(strQry)
                         rawData = response.readlines()
@@ -132,13 +132,15 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
                             data = data[(data['Month'] <= end[1]) & (data['Month'] >= start[1])]
     
                     except Exception:
-                        print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr))
-            
-            if fileName == '':
-                fileName = str(ID)
+                        pass
+                        #print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr))
             
             data = data.dropna(axis = 0, how = 'all')
-            data.to_csv(path+fileName+".csv", index=False, line_terminator="")
+            
+            if type(fileName) == dict:
+                data.to_csv(path+fileName[str(ID)]+".csv", index=False, line_terminator="")
+            else:
+                data.to_csv(path+str(ID)+".csv", index=False, line_terminator="")
             
     else:
         data = pd.DataFrame([])
@@ -162,7 +164,7 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
                         #build the query
                         strQry = 'http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=' + str(ID) + "&Year=" + str(intYr) +'&Month=' + str(intMnt) + method 
                         #print strQry
-                        print ('Querying station ' + str(ID) + ' for year ' + str(intYr) + ' and month ' + str(intMnt))
+                        #print ('Querying station ' + str(ID) + ' for year ' + str(intYr) + ' and month ' + str(intMnt))
                         try:
                             response = url.urlopen(strQry)
                             rawData = response.readlines()
@@ -189,13 +191,14 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
                                 newData.insert(1, column='Province', value = [province for i in range(newData.shape[0])])
                             
                             data = data.append(newData, ignore_index=True, sort=False)
-                        except Exception as e:
-                            print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr) + '. ',e)
+                        except Exception:
+                            pass
+                            #print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr) + '. ',e)
                 else:
                     #build the query
                     strQry = 'http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=' + str(ID) + "&Year=" + str(intYr) + method 
                     #print strQry
-                    print ('Querying station ' + str(ID) + ' for year ' + str(intYr))
+                    #print ('Querying station ' + str(ID) + ' for year ' + str(intYr))
                     try:
                         response = url.urlopen(strQry)
                         rawData = response.readlines()
@@ -232,7 +235,8 @@ def downloadData(IDs, start, end, method = 'hourly', path = '', dataFormat = 'de
                             data = data[(data['Month'] >= start[1]) & (data['Month'] <= end[1])]
     
                     except Exception:
-                        print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr))
+                        pass
+                        #print ('Failure getting data for '  + str(ID) + ' for year ' + str(intYr))
             
         data = data.dropna(axis = 0, how = 'all')
         data.to_csv(path+downloadMethod+'Information.csv', index=False, line_terminator="")        
