@@ -1,3 +1,5 @@
+link for the main repository: https://github.com/UbiLab-UW/environment-canada-data-mining
+
 # Envcanlib
 Python3 package to download information from Environment Canada: Whether Information
 
